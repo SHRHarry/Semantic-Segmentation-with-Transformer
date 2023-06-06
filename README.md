@@ -4,7 +4,7 @@
 
 A repository of SegFormer model test
 
-![The video with less hit frames.](fig/segformer_architecture.png)
+![SegFormer Architecture](fig/segformer_architecture.png)
 
 ## Installation
 
