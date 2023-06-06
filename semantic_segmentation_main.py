@@ -9,12 +9,19 @@ import os
 import cv2
 import json
 import torch
+import argparse
 import numpy as np
 from torch import nn
 from PIL import Image
 from torch.utils.data import DataLoader
 from semantic_segmentation_dataset import SemanticSegmentationDataset
 from transformers import SegformerFeatureExtractor, SegformerForSemanticSegmentation
+
+def segformer_parser():
+    parser = argparse.ArgumentParser(description='SegFormer test')
+    parser.add_argument('--api', default='get_info', type=str,
+                        help='choose web API type: train | eval | eval_others | infer')
+    return parser.parse_args()
 
 def softmax(x):
     f_x = np.exp(x) / np.sum(np.exp(x))
@@ -97,7 +104,7 @@ def evaluate(checkpoint="nvidia/mit-b4"):
     num_labels = len(id2label)
     
     model = SegformerForSemanticSegmentation.from_pretrained(checkpoint, num_labels=num_labels, id2label=id2label, label2id=label2id)
-    model.load_state_dict(torch.load(r"E:\Job\ASUS\LIDL_POC\20230323\hugging_face_semantic_segmentation\models\LIDL_20230425.pth"))
+    model.load_state_dict(torch.load("./models/LIDL_20230331_b0.pth"))
     model = model.cuda()
     model.eval()
     
@@ -134,7 +141,7 @@ def evaluate(checkpoint="nvidia/mit-b4"):
 
     print(f"average MIoU(threshold={iou_thresh}) = {np.mean(iou_avg)}")
 
-def evaluate_hulk():
+def evaluate_others():
     img_path = r"E:\Job\ASUS\LIDL_POC\20230323\exp_data_0329\cil\img"
     img_files = os.listdir(img_path)
     
@@ -237,9 +244,17 @@ def train(checkpoint="nvidia/mit-b4"):
 
 
 if __name__ == "__main__":
-    # train("nvidia/mit-b0")
-    infer("nvidia/mit-b3")
-    # evaluate_hulk()
-    # evaluate("nvidia/mit-b3")
+    args = segformer_parser()
     
-    ### https://github.com/NielsRogge/Transformers-Tutorials/blob/master/SegFormer/Fine_tune_SegFormer_on_custom_dataset.ipynb
+    if args.api == "train":
+        train("nvidia/mit-b0")
+    
+    elif args.api == "eval":
+        evaluate("nvidia/mit-b0")
+    
+    elif args.api == "eval_others":
+        evaluate_others()
+    
+    elif args.api == "infer":
+        infer("nvidia/mit-b0")
+    
