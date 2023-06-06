@@ -5,6 +5,7 @@
 A repository of SegFormer model test
 
 ![SegFormer Architecture](fig/segformer_architecture.png)
+<img src="fig/result-1.png" width = "850" height = "850" alt="result-1" align=center /><img src="fig/result-2.png" width = "850" height = "850" alt="result-2" align=center />
 
 ## Installation
 
