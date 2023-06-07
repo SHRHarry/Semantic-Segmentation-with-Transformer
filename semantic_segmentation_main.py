@@ -47,13 +47,13 @@ def show_img(image, mask):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     
     cv2.imshow("img", img)
-    cv2.imwrite("align_None_10_CLIP_20211130-121833_F0100_b14.png", img)
+    cv2.imwrite("./results/result.png", img)
     cv2.waitKey(0)
 
 def infer(checkpoint="nvidia/mit-b4"):
     
     feature_extractor = SegformerFeatureExtractor(reduce_labels=False)
-    image = Image.open(r"E:\Job\ASUS\LIDL_POC\20230323\exp_data_0329\test\img\align_None_Right_02_F0300_b05.png")
+    image = Image.open("./data/image_1.png")
     encoding = feature_extractor(image, return_tensors="pt")
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -67,7 +67,7 @@ def infer(checkpoint="nvidia/mit-b4"):
                                                               num_labels=num_labels,
                                                               id2label=id2label,
                                                               label2id=label2id)
-    model.load_state_dict(torch.load(r"E:\Job\ASUS\LIDL_POC\20230323\hugging_face_semantic_segmentation\models\LIDL_20230425.pth"))
+    model.load_state_dict(torch.load("./models/LIDL_20230425_b1.pth"))
     model = model.cuda()
     model.eval()
     
@@ -92,7 +92,7 @@ def infer(checkpoint="nvidia/mit-b4"):
     show_img(image, pred)
     
 def evaluate(checkpoint="nvidia/mit-b4"):
-    img_path = r"E:\Job\ASUS\LIDL_POC\20230323\exp_data_0329\cil\img"
+    img_path = "path to evaluate dataset"
     img_files = os.listdir(img_path)
     
     feature_extractor = SegformerFeatureExtractor(reduce_labels=False)
@@ -142,12 +142,12 @@ def evaluate(checkpoint="nvidia/mit-b4"):
     print(f"average MIoU(threshold={iou_thresh}) = {np.mean(iou_avg)}")
 
 def evaluate_others():
-    img_path = r"E:\Job\ASUS\LIDL_POC\20230323\exp_data_0329\cil\img"
+    img_path = "path to evaluate dataset 1"
     img_files = os.listdir(img_path)
     
     iou_avg = []
     for img_file in img_files:
-        pred = Image.open(os.path.join(r"E:\Job\ASUS\LIDL_POC\20230323\exp_data_0329\train\LIDL_exp_20230329\20230410_export\PredictorPrediction", img_file)).convert('L')
+        pred = Image.open(os.path.join("path to evaluate dataset 2", img_file)).convert('L')
         pred = np.array(pred)
 
         target = Image.open(os.path.join(img_path.replace("\img", "\mask"), img_file)).convert('L')
@@ -182,7 +182,7 @@ def iou_mean(pred, target, class_num = 1):
     return iou_sum / (class_num+1)
 
 def train(checkpoint="nvidia/mit-b4"):
-    root_dir = r"E:\Job\ASUS\LIDL_POC\20230323\exp_data_0329"
+    root_dir = r"path to train dataset"
     feature_extractor = SegformerFeatureExtractor(reduce_labels=False)
     
     train_dataset = SemanticSegmentationDataset(root_dir=root_dir, feature_extractor=feature_extractor)
@@ -256,5 +256,5 @@ if __name__ == "__main__":
         evaluate_others()
     
     elif args.api == "infer":
-        infer("nvidia/mit-b0")
+        infer("nvidia/mit-b1")
     
