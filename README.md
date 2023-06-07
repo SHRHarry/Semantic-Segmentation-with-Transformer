@@ -1,5 +1,7 @@
 # Semantic-Segmentation-with-Transformer
 
+[![Hugging Face Models](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow)](https://huggingface.co/docs/transformers/model_doc/segformer)  
+[![paper](https://img.shields.io/badge/arXiv-Paper-red)](https://arxiv.org/abs/2105.15203)
 ## Introduction
 
 A repository of SegFormer model test
@@ -44,9 +46,5 @@ python semantic_segmentation_main.py --api infer
 ```
 
 ## References
-
-+ https://arxiv.org/abs/2105.15203
-
-+ https://huggingface.co/docs/transformers/model_doc/segformer
 
 + https://github.com/NielsRogge/Transformers-Tutorials/blob/master/SegFormer/Fine_tune_SegFormer_on_custom_dataset.ipynb
