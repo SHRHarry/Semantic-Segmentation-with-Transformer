@@ -13,7 +13,7 @@ A repository of SegFormer model test
 ## Experimentals Results
 
 <p align="center">
-<img src="fig/result-1.png" width = "300" height = "300" alt="result-1" /><img src="fig/result-2.png" width = "300" height = "300" alt="result-2" />
+<img src="fig/result-1.png" width = "450" height = "450" alt="result-1" /><img src="fig/result-2.png" width = "450" height = "450" alt="result-2" />
 </p>
 
 ## Installation
