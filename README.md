@@ -4,7 +4,11 @@
 
 A repository of SegFormer model test
 
-![SegFormer Architecture](fig/segformer_architecture.png)
+## Architecture
+
+<p align="center">
+<img src="fig/segformer_architecture.png" width = "747" height = "380" alt="segformer architecture" />
+</p>
 
 ## Experimentals Results
 
